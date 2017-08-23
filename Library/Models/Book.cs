@@ -223,7 +223,7 @@ namespace Library.Models
       conn.Open();
 
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT authors.* FROM books JOIN authors_books ON(books.id = authors_books.book_id) JOIN authors ON(authors_books.authors_id = authors.id) WHERE books.id=@bookId;";
+      cmd.CommandText = @"SELECT authors.* FROM books JOIN authors_books ON(books.id = authors_books.book_id) JOIN authors ON(authors_books.author_id = authors.id) WHERE books.id=@bookId;";
 
       MySqlParameter bookIdParameter= new MySqlParameter();
       bookIdParameter.ParameterName = "@bookId";
