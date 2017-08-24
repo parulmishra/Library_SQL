@@ -9,9 +9,10 @@ namespace Library.Models
     private int _id;
     private int _patronId;
     private int _copyId;
+    private bool _overdue;
     private DateTime _dueDate;
     private DateTime _checkoutDate;
-    private bool _overdue;
+
 
     public Checkout(int patronId,int copyId,bool overdue, DateTime dueDate,DateTime checkoutDate,int id=0)
     {
@@ -73,7 +74,7 @@ namespace Library.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"INSERT INTO checkouts(patron_id,copy_id,overdue,due_date,checkout_date) VALUES(@patron_id,@copy_id,@overdue,@due_date,@checkout_date);";
+      cmd.CommandText = @"INSERT INTO checkouts(patron_id, copy_id,overdue,due_date,checkout_date) VALUES(@patron_id,@copy_id,@overdue,@due_date,@checkout_date);";
 
       MySqlParameter patronIdParameter = new MySqlParameter();
       patronIdParameter.ParameterName = "@patron_id";
@@ -108,6 +109,48 @@ namespace Library.Models
         conn.Dispose();
       }
     }
+    public static List<Checkout> GetAll()
+    {
+      List<Checkout> allCheckouts = new List<Checkout>{};
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
 
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM checkouts;";
+
+      var rdr = cmd.ExecuteReader();
+      while(rdr.Read())
+      {
+        int id = rdr.GetInt32(0);
+        int patronId = rdr.GetInt32(1);
+        int copyId = rdr.GetInt32(2);
+        bool overdue = rdr.GetBoolean(3);
+        DateTime dueDate = rdr.GetDateTime(4);
+        DateTime checkoutDate = rdr.GetDateTime(5);
+        Checkout newCheckout = new Checkout(patronId,copyId,overdue,dueDate,checkoutDate,id);
+        allCheckouts.Add(newCheckout);
+      }
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+      return allCheckouts;
+    }
+    public static void DeleteAll()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"DELETE FROM checkouts;";
+
+      cmd.ExecuteNonQuery();
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
   }
 }

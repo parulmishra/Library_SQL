@@ -221,12 +221,16 @@ namespace Library.Models
       var rdr = cmd.ExecuteReader() as MySqlDataReader;
       while(rdr.Read())
       {
+        Console.WriteLine("GetCopies method while loop==============" + copies.Count.ToString());
+
         int copyId = rdr.GetInt32(0);
         int bookId = rdr.GetInt32(1);
         bool available = rdr.GetBoolean(2);
         Copy copy = new Copy(bookId, available, copyId);
         copies.Add(copy);
       }
+      Console.WriteLine("GetCopies method ==============" + copies.Count.ToString());
+
       conn.Close();
       if (conn != null)
       {

@@ -14,6 +14,7 @@ namespace Library.Tests
     }
     public void Dispose()
     {
+      Checkout.DeleteAll();
       Patron.DeleteAll();
       Author.DeleteAll();
       Book.DeleteAll();
@@ -86,9 +87,10 @@ namespace Library.Tests
       testCopy1.Save();
       Copy testCopy2 = new Copy(2,false);
       testCopy2.Save();
+
       Patron newPatron = new Patron("Parul");
       newPatron.Save();
-      Checkout newCheckout = (testCopy1.GetId(), newPatron.GetId(), false, new DateTime(2017, 09, 23), new DateTime(2017, 09, 23));
+      Checkout newCheckout = new Checkout( newPatron.GetId(), testCopy1.GetId(), false, new DateTime(2017, 09, 23), new DateTime(2017, 09, 23));
       newCheckout.Save();
       //Act
       List<Copy> savedCopies = newPatron.GetCopies();
