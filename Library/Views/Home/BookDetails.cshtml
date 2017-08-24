@@ -1,0 +1,17 @@
+
+@if(Model != null)
+{
+  <div class="well">
+
+    <h4>Title: @Model["book"].GetTitle()</h4>
+    <h4>Author(s):</h4>
+    <ul>
+    @foreach(var author in Model["authors"])
+    {
+      <li>@author.GetName()</li>
+    }
+    </ul>
+    <h4>Number of Copies: @Model["copies"].Count</h4>
+
+  </div>
+}

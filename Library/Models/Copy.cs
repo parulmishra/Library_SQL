@@ -28,6 +28,11 @@ namespace Library.Models
     {
       return _available;
     }
+    public void SetAvailable(bool avalilability)
+    {
+      _available = avalilability;
+    }
+
     public override bool Equals(System.Object otherCopy)
 		{
 			if(!(otherCopy is Copy))

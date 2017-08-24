@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Library.Models;
 using System.Collections.Generic;
 using System;
+// using  System.Web.Mvc;
 
 namespace Library.Controllers
 {
@@ -41,16 +42,7 @@ namespace Library.Controllers
     [HttpGet("/allCheckouts")]
     public ActionResult Checkouts()
     {
-      // Dictionary<string,Object> model = new Dictionary<<string,Object>();
       List<Checkout> checkouts = Checkout.GetAll();
-      // List<int> patronIds = new List<int>();
-      // List<int> copyIds = new List<int>();
-      // foreach(var checkout in checkouts)
-      // {
-      //   patronIds.Add(checkout.GetPatronId());
-      //   copyIds.Add(checkout.GetCopyId());
-      //
-      // }
       return View(checkouts);
     }
     [HttpGet("/bookform")]
@@ -61,9 +53,20 @@ namespace Library.Controllers
     [HttpPost("/bookform/add")]
     public ActionResult AddBook()
     {
-      string title = Request.Form["title"];
-      Book newBook = new Book(title);
+      string ids = Request.Form["authorIds"];
+      int numberOfCopies = int.Parse(Request.Form["copies"]);
+      string [] idArr = ids.Split(',');
+      Book newBook = new Book(Request.Form["title"]);
       newBook.Save();
+      for(int i =0; i<numberOfCopies; i++)
+      {
+        var copy = new Copy(newBook.GetId());
+        copy.Save();
+      }
+      foreach(var id in idArr)
+      {
+        newBook.AddAuthor(Author.Find(int.Parse(id)));
+      }
       return RedirectToAction("Books");
     }
     [HttpGet("/authorform")]
@@ -93,11 +96,63 @@ namespace Library.Controllers
       newPatron.Save();
       return RedirectToAction("Patrons");
     }
+    [HttpGet("/bookDetails/{id}")]
+    public ActionResult BookDetails(int id)
+    {
+      Dictionary<string,object> model = new Dictionary<string,object>();
+      Book selectedBook = Book.Find(id);
+      model["book"] = selectedBook;
+      model["authors"] = selectedBook.GetAuthors();
+      model["copies"] = selectedBook.GetCopies();
+      return View(model);
+    }
+
+    [HttpGet("/authorDetails/{id}")]
+    public ActionResult AuthorDetails(int id)
+    {
+      Dictionary<string,object> model = new Dictionary<string,object>();
+      Author author = Author.Find(id);
+      List<Book> books = author.GetBooks();
+
+      model["author"] = author;
+      model["books"] = books;
+      return View(model);
+    }
+
+    [HttpGet("/patronDetails/{id}")]
+    public ActionResult PatronDetails(int id)
+    {
+      Dictionary<string,object> model = new Dictionary<string,object>();
+      Patron patron = Patron.Find(id);
+      List<Book> patronBooks = patron.GetBooks();
+
+      model["patron"] = patron;
+      model["patronBooks"] = patronBooks;
+      model["allBooks"] = Book.GetAll();
+      return View(model);
+    }
+    [HttpPost("/patronDetails/checkoutBook/{patronId}/{bookId}")]
+    public ActionResult CheckoutBook(int patronId, int bookId)
+    {
+      Patron patron = Patron.Find(patronId);
+      Book book = Book.Find(bookId);
+      List<Copy> copiesForThisBook = book.GetCopies();
+      for(int i=0; i<copiesForThisBook.Count;i++)
+      {
+        if(copiesForThisBook[i].GetAvailable())
+        {
+          patron.AddToCheckout(copiesForThisBook[i]);
+          copiesForThisBook[i].SetAvailable(false);
+          break;
+        }
+      }
+      return RedirectToAction("PatronDetails");
+    }
 
     // [HttpGet("/books/new")]
     // public ActionResult CourseForm()
     // {
-    //   List<Author> departments = Department.GetAll();
+    //   List<Patron> departments = Department.GetAll();
     //   return View(departments);
     // }
     // [HttpPost("/books/new")]

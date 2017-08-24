@@ -1,0 +1,33 @@
+@if(Model != null)
+{
+  <div class="well">
+    <h2>Patron Details:</h2>
+    <h4>Patron Name: @Model["patron"].GetName()</h4>
+    <h4>Books this patron checked out:</h4>
+    <ul>
+    @foreach(var book in Model["patronBooks"])
+    {
+      <li>@book.GetTitle()</li>
+    }
+    </ul>
+    <h4>Total books under this patron checked out: @Model["patronBooks"].Count</h4>
+
+  </div>
+}
+
+
+<div>
+  <h2>All Available Books</h2>
+  <h3>You can checkout books from the list</h3>
+    <ul>
+      @foreach(var book in Model["allBooks"])
+      {
+        <form action='/patronDetails/checkoutBook/@Model["patron"].GetId()/@book.GetId()' method="post">
+
+        <input id="patronId" name="patronId" value='@Model["patron"].GetId()' type="hidden">
+        <input id="bookId" name="bookId" value="@book.GetId()" type="hidden">
+        <button type="submit">Checkout</button>
+        </form>
+      }
+    </ul>
+</div>

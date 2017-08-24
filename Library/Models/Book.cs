@@ -245,6 +245,37 @@ namespace Library.Models
       }
       return authors;
     }
+    public List<Copy> GetCopies()
+    {
+      List<Copy> copies = new List<Copy>{};
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM copies WHERE book_id=@bookId;";
+
+      MySqlParameter bookIdParameter= new MySqlParameter();
+      bookIdParameter.ParameterName = "@bookId";
+      bookIdParameter.Value = this._id;
+      cmd.Parameters.Add(bookIdParameter);
+
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
+      while(rdr.Read())
+      {
+        int copyId = rdr.GetInt32(0);
+        int bookId = rdr.GetInt32(1);
+        bool available = rdr.GetBoolean(2);
+
+        Copy copy = new Copy(bookId, available, copyId);
+        copies.Add(copy);
+      }
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+      return copies;
+    }
     public void Update(string newTitle)
     {
       MySqlConnection conn = DB.Connection();
