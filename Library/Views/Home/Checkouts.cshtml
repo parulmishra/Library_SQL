@@ -1,0 +1,57 @@
+@using Library.Models;
+
+<h4>Total checkouts @Model.Count</h4>
+ <div class="well">
+  <table border="1">
+    <thead>
+      <th>SN</th>
+      <th>Patron Name</th>
+      <th>Book Title</th>
+      <th>Checkout Date</th>
+      <th>Due Date</th>
+      <th>Overdue</th>
+    </thead>
+    <tbody>
+
+        @foreach(var checkout in Model)
+        {
+          <tr>
+          <td>@checkout.GetId()dkfdkfkdl</td>
+          <td><a href="/allCheckouts/patron/@checkout.GetPatronId()">@Patron.Find(@checkout.GetPatronId()).GetName() </a></td>
+          <td>
+          <a href="/allCheckouts/@checkout.GetCopyId()">@Copy.Find(@checkout.GetCopyId()).GetBook().GetTitle()  </a>
+          </td>
+          <td> @checkout.GetCheckoutDate()  </td>
+          <td> @checkout.GetDueDate()  </td>
+          <td> @checkout.GetOverDue() </td>
+          </tr>
+        }
+        </tbody>
+</table>
+
+  @* <div class="row">
+    @foreach(var checkout in Model)
+    {
+    <div class="col-md-1">
+      <p>@checkout.GetId() dkfdkfkdl</p>
+    </div>
+    <div class="col-md-3">
+      <a href="/allCheckouts/patron/@checkout.GetPatronId()">@Patron.Find(@checkout.GetPatronId()).GetName()</a>
+    </div>
+
+    <div class="col-md-3">
+      <p><a href="/allCheckouts/@checkout.GetCopyId()"> @Copy.Find(@checkout.GetCopyId()).GetBook().GetTitle() </a> difjkldfjkdf</p>
+    </div>
+    <div class="col-md-2">
+      <p>@checkout.GetCheckoutDate()</p>
+    </div>
+    <div class="col-md-2">
+      <p>@checkout.GetDueDate()</p>
+    </div>
+    <div class="col-md-1">
+      <p>@checkout.GetOverDue() </p>
+    </div>
+}
+  </div> *@
+
+</div>

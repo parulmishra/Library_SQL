@@ -1,0 +1,12 @@
+@{
+  Layout = "_Layout";
+}
+
+<div class="well">
+  <ul>
+  @foreach(var patron in Model)
+  {
+    <li><a href="/patronDetail/@patron.GetId()">@patron.GetName()</a></li>
+  }
+</ul>
+</div>

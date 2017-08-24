@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Library</title>
+     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+     <link href="css/styles.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-library" href="/"><span><img src="/img/library.png" id="libraryImg"></span>LIBRARY</a>
+        <a href="/allBooks"><button type="button" class="btn btn-default navbar-btn"><span><img src="/img/book.png" id="book"></span>All Books</button></a>
+        <a href="/allAuthors"><button type="button" class="btn btn-default navbar-btn"><span><img src="/img/author.jpeg" id="author"></span>All Authors</button></a>
+        <a href="/allCopies"><button type="button" class="btn btn-default navbar-btn"><span><img src="/img/copies.png" id="copy"></span>All Copies</button></a>
+        <a href="/allPatrons"><button type="button" class="btn btn-default navbar-btn"><span><img src="/img/patron.png" id="patron"></span>All Patrons</button></a>
+        <a href="/allCheckouts"><button type="button" class="btn btn-default navbar-btn"><span><img src="/img/checkout.png" id="checkout"></span>All Checkouts</button></a>
+
+        <a href="/bookForm"><button type="button" class="btn btn-default navbar-btn"><span><img src="/img/add.jpeg" id="add"></span>Add Book</button></a>
+        <a href="/authorForm"><button type="button" class="btn btn-default navbar-btn"><span><img src="/img/add.jpeg" id="add"></span>Add Author</button></a>
+        <a href="/copyForm"><button type="button" class="btn btn-default navbar-btn"><span><img src="/img/add.jpeg" id="add"></span>Add Copy</button></a>
+        <a href="/patronForm"><button type="button" class="btn btn-default navbar-btn"><span><img src="/img/add.jpeg" id="add"></span>Add Patron</button></a>
+
+      </div>
+    </div>
+  </nav>
+
+  <div class="container body-content">
+      @RenderBody()
+      <hr />
+      <footer>
+          <p>&copy; @DateTime.Now.Year - Library Managemetn |Michael |Parul |Robert</p>
+      </footer>
+  </div>
+
+  @* <script src="/Scripts/jquery-1.10.2.min.js"></script>
+  <script src="/Scripts/bootstrap.min.js"></script> *@
+</body>
+</html>

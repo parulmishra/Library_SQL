@@ -1,0 +1,23 @@
+
+@{
+  Layout = "_Layout";
+  ViewBag.Title = "Comic Books";
+}
+
+<h1> We are open 24/7 to serve you</h1>
+<form action="/searchAuthor" method="post" class="form-group">
+  <div class="form-group">
+    <label for="authorName">Author</label>
+    <input type="text" class="form-control" name="authorName" required>
+  </div>
+  <button type="submit" class="btn btn-md btn-default"><span><img src="/img/search.png" id="add"></span>Search Author</button>
+
+</form>
+
+<form action="/searchBook" method="post" class="form-group">
+  <div class="form-group">
+    <label for="bookName">Book</label>
+    <input type="text" class="form-control" name="bookName" required>
+  </div>
+  <button type="submit" class="btn btn-md btn-default"><span><img src="/img/search.png" id="add"></span>Search Book</button>
+</form>
